@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const knexfile = require('./knexfile')
+const knex = require('knex')(knexfile.development)
 
 //express is a function that needs to be invoked that has other methods
 // app.get() for instance takes in a route and another callback function
@@ -18,4 +20,18 @@ app.use(bodyParser())
 
 
 
-app.get()
+app.get('/appointments', async (request, response) => {
+    const appointments = await knex.select('*').from('appointments')
+    response.json(appointments)
+})
+
+app.post('/appointments', async (request, response) => {
+    const newAppointment = {
+        time: request.body.time,
+        date: request.body.date,
+        description: request.body.description,
+        user_id: request.body.user_id,
+    }
+    knex('appointments').insert(newAppointment)
+    response.json(newAppointment)
+})
