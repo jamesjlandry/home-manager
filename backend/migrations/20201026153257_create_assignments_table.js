@@ -5,7 +5,8 @@ exports.up = function(knex) {
         table.string('subject')
         table.string('name');
         table.string('description')
-        table.integer('duration')
+        table.datetime('start_time')
+        table.datetime('end_time')
         table.integer('user_id')
         table.timestamps();
       })
