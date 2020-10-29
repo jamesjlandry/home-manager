@@ -31,6 +31,7 @@ app.post('/user/create', async function (request, response) {
      await knex('user').insert(newUser)
      response.json()
   });
+})
 
 app.get(`/user/${userId}`, async (request, response) => {
     const user = await knex.select('*').from('users').where('id', userId)
