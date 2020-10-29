@@ -3,6 +3,9 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const knexfile = require('./knexfile')
 const knex = require('knex')(knexfile.development)
+const bcrypt = require('bcryptjs')
+const saltRounds = 10;
+
 
 //express is a function that needs to be invoked that has other methods
 // app.get() for instance takes in a route and another callback function
@@ -18,7 +21,21 @@ app.use(cors())
 
 app.use(bodyParser())
 
+app.post('/user/create', async function (request, response) {
+    bcrypt.hash(req.body.passwordsignup, saltRounds, function (err,   hash) {
+   const newUser ={
+     name: request.body.usernamesignup,
+     email: request.body.emailsignup,
+     password: hash
+     }
+     await knex('user').insert(newUser)
+     response.json()
+  });
 
+app.get(`/user/${userId}`, async (request, response) => {
+    const user = await knex.select('*').from('users').where('id', userId)
+    response.json(user)
+})
 
 app.get('/appointments', async (request, response) => {
     const appointments = await knex.select('*').from('appointments')
