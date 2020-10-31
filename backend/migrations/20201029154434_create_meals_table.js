@@ -1,16 +1,18 @@
 
 exports.up = function(knex) {
-    knex.schema.createTable('meals', function (table) {
+    return knex.schema.createTable('meals', function (table) {
         table.increments();
         table.string('name');
         table.string('description')
-        table.datetime('start_time')
-        table.datetime('end_time')
+        table.float('start_time')
+        table.float('end_time')
+        table.integer('day')
+        table.datetime('week')
         table.integer('user_id')
         table.timestamps();
       })
 };
 
 exports.down = function(knex) {
-  
+  return knex.schema.dropTable('meals')
 };

@@ -7,11 +7,6 @@ const bcrypt = require('bcryptjs')
 const saltRounds = 10;
 
 
-//express is a function that needs to be invoked that has other methods
-// app.get() for instance takes in a route and another callback function
-// that takes in 2 more arguments, the request and the response which have 
-// other methods built into them. such as response.send() will send the contents
-// back to the browser that made the request. The format needs to be in JSON format
 // app.listen() takes in the port we want the server to listen on. So for 
 // development we could do app.listen(3000)
 
@@ -22,24 +17,33 @@ app.use(cors())
 app.use(bodyParser())
 
 app.post('/user/create', async function (request, response) {
-    bcrypt.hash(req.body.passwordsignup, saltRounds, function (err,   hash) {
-   const newUser ={
-     name: request.body.usernamesignup,
-     email: request.body.emailsignup,
-     password: hash
-     }
-     await knex('user').insert(newUser)
-     response.json()
-  });
-})
 
-app.get(`/user/${userId}`, async (request, response) => {
-    const user = await knex.select('*').from('users').where('id', userId)
-    response.json(user)
+    let existingUsersWithTheSameName = await knex('users').where('name', request.body.name)
+
+    if(existingUsersWithTheSameName.length > 0){
+        response.status(425).json({ message: 'A time traveller beat you to it '})
+    }
+
+    let hash = await bcrypt.hash(request.body.password, saltRounds)
+    const newUser = {
+        name: request.body.name,
+        email: request.body.email,
+        password: hash
+    }
+    let [ userId ] = await knex('users').insert(newUser)
+    response.json({ name: newUser.name, id: userId })
+});
+
+app.post(`/user/:name`, async (request, response) => {
+    const [ user ] = await knex.select('*').from('users').where('name', request.params.name)
+    const match = await bcrypt.compare(request.body.password, user.password)
+    if (match) {
+        response.json(user)
+    }
 })
 
 app.get('/appointments', async (request, response) => {
-    const appointments = await knex.select('*').from('appointments')
+    const appointments = await knex.select('*').from('appointments').where('id', user.id)
     response.json(appointments)
 })
 
@@ -53,3 +57,5 @@ app.post('/appointments', async (request, response) => {
     knex('appointments').insert(newAppointment)
     response.json(newAppointment)
 })
+
+app.listen('3000')
