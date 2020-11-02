@@ -7,9 +7,6 @@ const bcrypt = require('bcryptjs')
 const saltRounds = 10;
 
 
-// app.listen() takes in the port we want the server to listen on. So for 
-// development we could do app.listen(3000)
-
 const app = express()
 
 app.use(cors())
@@ -49,9 +46,12 @@ app.get('/appointments', async (request, response) => {
 
 app.post('/appointments', async (request, response) => {
     const newAppointment = {
-        time: request.body.time,
-        date: request.body.date,
+        name: request.body.name,
         description: request.body.description,
+        start_time: request.body.startTime,
+        end_time: request.body.endTime,
+        day: request.body.day,
+        week: request.body.week,
         user_id: request.body.user_id,
     }
     knex('appointments').insert(newAppointment)
