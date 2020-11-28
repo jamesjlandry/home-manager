@@ -9,6 +9,9 @@ Chore Charts
 
 School work/course work.
 
+Current UX/UI plans: 
+
+Main screen has tabs at the top with 6 different filter options for Appointments, Meal Plans, Assignments, Errands, Projects, and All. Directly below is a week view of current week with "Month Year header. Clicking on Month Year will open a month view popup that allows users to see the various events as color coded dots. Users can select the week and jump to that week view from there or have left and right arrows to move between months. Below the week view is a scroll with individual day's appointments. At the bottom of the screen is a bubble button with a + to add an event. Users can click on a day and then the plus button to add an event for that day, or can select the date from the popup. Events will have a due date/time and an option to mark as complete. If not completed on time, they will have a red alert symbol on the scroll view. Days with incomplete options will also have an alert icon on the dot. Clicking on the event with a red alert will ask the user if the event was complete or if they would like to reschedule. There will also be a small Profile icon for changing user info and settings. 
 
 ### `yarn start`
 
