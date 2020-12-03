@@ -58,7 +58,7 @@ app.post('/appointments', async (request, response) => {
     response.json(newAppointment)
 })
 
-app.patch(`/appointments/${request.params.id}`, async (request, response) => {
+app.patch('/appointments/:id', async (request, response) => {
     const updatedAppointment = {
         name: request.body.name,
         description: request.body.description,
@@ -71,7 +71,7 @@ app.patch(`/appointments/${request.params.id}`, async (request, response) => {
     response.json(updatedAppointment)
 })
 
-app.delete(`/appointments${request.params.id}`, async (request, response) => {
+app.delete('/appointments/:id', async (request, response) => {
     knex('appointments').where('id', request.params.id).del()
 })
 
